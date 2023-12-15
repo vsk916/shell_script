@@ -2,14 +2,17 @@
 
 ID=$(id -u)
 
+Timestamp=$(date +%F-%H-%M-%S)
+LOG_FILE="/tmp/$0-$Timestamp.log"
+
 validate (){
 
     if [ $1 -ne 0 ]
     then
-        echo "$2 is not installed"
+        echo -e "$2 is \e[31m not installed"
         exit 1
     else
-        echo "$2 is installed"
+        echo -e "$2 is \e[32m installed"
     fi
     
 }
@@ -22,8 +25,8 @@ else
     echo "you are root user"
 fi
 
-yum install mysql -y
+yum install mysql -y  &>> $LOG_FILE
 validate $? "installing mysql"
 
-yum install git -y
+yum install git -y  &>> $LOG_FILE
 validate $? "installing git"
